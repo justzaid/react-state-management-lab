@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import ZombieFighters from './components/ZombieFighters'
+import ShowTeam from './components/ShowTeam'
+import './App.css'
 
 const App = () => {
 
-  const [team, setTeam] = useState([])
+  const [teams, setTeam] = useState([])
   const [money, setMoney] = useState(100)
+  const [totalStrength, setTotalStrength] = useState(0)
+  const [totalAgility, setTotalAgility] = useState(0)
   const [zombieFighters, setZombieFighters] = useState([
     {
       name: 'Survivor',
@@ -79,14 +83,51 @@ const App = () => {
   ])
 
 const handleAddFighter = (fighter) => {
-  setTeam([...team, fighter])
+  {money < fighter.price ? console.log('Not enough money!') : ''}
+  {money > fighter.price ? setMoney(money - fighter.price) : money}
+  {money > fighter.price ? setTeam([...teams, fighter]) : [...teams]}
+  {money > fighter.price ? setTotalStrength(totalStrength + fighter.strength) : totalStrength}
+  {money > fighter.price ? setTotalAgility(totalAgility + fighter.agility) : totalStrength}
 }
 
+const handleRemoveFighter = (fighter) => {
+  setMoney(money + fighter.price)
+  setTotalStrength(totalStrength - fighter.strength)
+  setTotalAgility(totalAgility - fighter.agility)
+
+  const filteredFighters = teams.filter((team) => {
+    return team.name !== fighter.name
+  });
+  setTeam(filteredFighters)
+}
 
   return (
     <>
-      <h1>Zombie Fighters, Assemble!</h1>
-      <h2>Money: ${money}</h2>
+      <h1>Zombie Fighters</h1>
+      <h2>ᓚ₍ ^. ̫ .^₎</h2>
+      <h2 style={{color : 'red'}}>Money: ${money}</h2>
+      <h3>Team Strength: {totalStrength}</h3>
+      <h3>Team agility: {totalAgility}</h3>
+      <h3>Team</h3>
+      {teams.length === 0 ? <p>Pick some team members!</p> : ''}
+      
+      <ul>
+        {teams.map((fighter) => (
+          <li>
+            <ShowTeam
+            img = {fighter.img}
+            name = {fighter.name}
+            strength = {fighter.strength}
+            agility = {fighter.agility}
+            price = {fighter.price}
+            />
+            <button onClick={() => handleRemoveFighter(fighter)}>Remove</button>
+          </li>
+        ))}
+      </ul>
+
+      <hr />
+
         <ul>
           {zombieFighters.map((fighter) => (
             <li>

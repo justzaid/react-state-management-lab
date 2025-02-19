@@ -1,6 +1,6 @@
-import './ZombieFighters.css'
+import './ShowTeam.css'
 
-const ZombieFighters = (props) => {
+const ShowTeam = (props) => {
     return (
         <>
             <img className="images" src={props.img} alt="" />
@@ -12,4 +12,4 @@ const ZombieFighters = (props) => {
     )
 }
 
-export default ZombieFighters
+export default ShowTeam
