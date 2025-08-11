@@ -4,7 +4,7 @@ import ShowTeam from './components/ShowTeam'
 import './App.css'
 
 const App = () => {
-
+  const [msg, setMsg] = useState('')
   const [teams, setTeam] = useState([])
   const [money, setMoney] = useState(100)
   const [totalStrength, setTotalStrength] = useState(0)
@@ -83,7 +83,7 @@ const App = () => {
   ])
 
 const handleAddFighter = (fighter) => {
-  {money < fighter.price ? console.log('Not enough money!') : ''}
+  {money < fighter.price ? setMsg('Not enough money!') : ''}
   {money > fighter.price ? setMoney(money - fighter.price) : money}
   {money > fighter.price ? setTeam([...teams, fighter]) : [...teams]}
   {money > fighter.price ? setTotalStrength(totalStrength + fighter.strength) : totalStrength}
@@ -110,7 +110,7 @@ const handleRemoveFighter = (fighter) => {
       <h3>Team agility: {totalAgility}</h3>
       <h3>Team</h3>
       {teams.length === 0 ? <p>Pick some team members!</p> : ''}
-      
+      <p>{msg}</p>
       <ul>
         {teams.map((fighter) => (
           <li>
